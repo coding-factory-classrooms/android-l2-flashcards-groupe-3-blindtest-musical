@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        tools:text="Veuillez sélectionner une réponse" />
+        tools:text="Please select an answer" />
 
     <Button
         android:id="@+id/confirmButton"

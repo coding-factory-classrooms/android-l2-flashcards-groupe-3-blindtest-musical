@@ -2,6 +2,7 @@ package com.rosstail.blindtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,25 +43,36 @@ public class BlindTestActivity extends AppCompatActivity {
         addAnswers(obj, group, question, 4);
         try {
             String artist = question.get("artist").toString();
-
-            Button confirmButton = findViewById(R.id.confirmButton);
-            confirmButton.setOnClickListener(v -> {
-                int checkedID = group.getCheckedRadioButtonId();
-                if ( checkedID != -1) {
-                    RadioButton radioButton = (RadioButton) findViewById(checkedID);
-                    if (radioButton.getText().toString().equalsIgnoreCase(artist)) {
-                        Log.i("WRIGHT", "ANSWER");
-                        finish();
-                    } else {
-                        Log.w("WRONG", "ANSWER");
-                    }
-                } else {
-                    Log.e("Unchecked", "Not checked");
-                }
-            });
+            setConfirm(group, artist);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setConfirm(RadioGroup group, String artist) {
+        Button confirmButton = findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(v -> {
+            int checkedID = group.getCheckedRadioButtonId();
+            if ( checkedID != -1) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedID);
+                TextView label = findViewById(R.id.responseTextView);
+                if (radioButton.getText().toString().equalsIgnoreCase(artist)) {
+                    label.setText("Right answer !");
+                } else {
+                    label.setText("Too bad ! The correct answer is " + artist);
+                }
+                setNextToConfirm(confirmButton);
+            } else {
+                Log.e("Unchecked", "Not checked");
+            }
+        });
+    }
+
+    private void setNextToConfirm(Button confirmButton) {
+        confirmButton.setText("Next");
+        confirmButton.setOnClickListener(b -> {
+            Log.i("Next page", "TEST");
+        });
     }
 
     private JSONObject getRandomTitle(JSONObject data) {
