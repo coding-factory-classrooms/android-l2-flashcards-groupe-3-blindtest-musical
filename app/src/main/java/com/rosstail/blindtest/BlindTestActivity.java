@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,13 +27,35 @@ public class BlindTestActivity extends AppCompatActivity {
 
         RadioGroup group = findViewById(R.id.radioGroup);
         RadioButton button;
+        JSONObject obj = readData();
+        if (obj == null) {
+            return;
+        }
+        Object question = getRandomTitle(obj);
+        if (question == null) {
+            return;
+        }
+        Log.i("Question", question.toString());
         for(int i = 0; i < 3; i++) {
             button = new RadioButton(this);
             button.setText("Button " + i);
             group.addView(button);
         }
+    }
 
-        InputStream is = null;
+    private Object getRandomTitle(JSONObject data) {
+        try {
+            JSONArray titleList = data.getJSONArray("questions");
+            int i = getRandomNumber(0, titleList.length());
+            return titleList.get(i);
+        } catch (JSONException e) {
+            Log.e("BlindeTestActivity", "getRandomTitle()" + e.getCause());
+        }
+        return null;
+    }
+
+    private JSONObject readData() {
+        InputStream is;
         String str_data = "";
         try {
             is = BlindTestActivity.this.getAssets().open("data.json");
@@ -41,10 +64,17 @@ public class BlindTestActivity extends AppCompatActivity {
             is.read(buffer);
             is.close();
             str_data = new String(buffer);
-            JSONObject obj = new JSONObject(str_data);
+            return new JSONObject(str_data);
+            //Log.w("test", new JSONObject(str_data).getJSONArray("artistes").toString());
         } catch (IOException | JSONException e) {
+            Log.e("BlindTestActivity", "Read Data Error");
             e.printStackTrace();
         }
-        Log.e("BlindTest", "onCreate: " + str_data);
+        //Log.w("BlindTest onCreate", str_data);
+        return null;
+    }
+
+    private int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }
