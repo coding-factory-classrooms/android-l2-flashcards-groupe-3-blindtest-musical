@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,23 +24,45 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class BlindTestActivity extends AppCompatActivity {
+public class BlindTestActivity extends AppCompatActivity implements View.OnClickListener {
 
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blind_test);
 
+        findViewById(R.id.playerButton).setOnClickListener(this);
+        findViewById(R.id.stopButton).setOnClickListener(this);
+
         RadioGroup group = findViewById(R.id.radioGroup);
         JSONObject obj = readData();
         if (obj == null) {
+            finish();
             return;
         }
         JSONObject question = getRandomTitle(obj);
         if (question == null) {
+            finish();
             return;
         }
+
+        // Create Media Player //
+
+        String fileName = null;
+        try {
+            fileName = question.get("mp3").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("player activity", fileName);
+        //int fileId = this.getResources().getIdentifier("mj_thriller.mp3", "raw", this.getPackageName());
+
+        createPlayer("mj_thriller");
+
+        // ------------------- //
+
         Log.i("Question", question.toString());
         addAnswers(obj, group, question, 4);
         try {
@@ -53,7 +77,7 @@ public class BlindTestActivity extends AppCompatActivity {
         Button confirmButton = findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(v -> {
             int checkedID = group.getCheckedRadioButtonId();
-            if ( checkedID != -1) {
+            if (checkedID != -1) {
                 RadioButton radioButton = (RadioButton) findViewById(checkedID);
                 TextView label = findViewById(R.id.responseTextView);
                 if (radioButton.getText().toString().equalsIgnoreCase(artist)) {
@@ -62,8 +86,6 @@ public class BlindTestActivity extends AppCompatActivity {
                     label.setText("Too bad ! The correct answer is " + artist);
                 }
                 setNextToConfirm(confirmButton);
-            } else {
-                Log.e("Unchecked", "Not checked");
             }
         });
     }
@@ -156,5 +178,26 @@ public class BlindTestActivity extends AppCompatActivity {
 
     private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    public void createPlayer(String fileName){
+        int fileId = getResources().getIdentifier(fileName, "raw", getPackageName());
+        Log.e("blindactivity", fileId+"");
+        mp = MediaPlayer.create(this, fileId);
+        //mp.start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.playerButton :
+                Log.e("blindactivity", "play test");
+                mp.start();
+                break;
+            case R.id.stopButton :
+                Log.e("blindactivity", "stop test");
+                mp.pause();
+                break;
+        }
     }
 }

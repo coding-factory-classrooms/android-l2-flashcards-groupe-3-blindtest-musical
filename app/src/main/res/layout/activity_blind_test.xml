@@ -6,13 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".BlindTestActivity">
 
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/playerButton"
+        app:layout_constraintTop_toTopOf="@+id/playerButton" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="340dp"
         android:layout_height="103dp"
         android:layout_marginTop="88dp"
+        android:fontFamily="sans-serif"
         android:text="Quel(le) est cet(te) artiste ?"
-        android:textSize="24sp"
+        android:textColor="#F80404"
+        android:textSize="30sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,21 +46,23 @@
         android:id="@+id/playerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="44dp"
         android:text="Ecouter"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/stopButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="172dp"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+    </RadioGroup>
 
     <TextView
         android:id="@+id/responseTextView"
@@ -58,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        tools:text="Please select an answer" />
+        tools:text="Veuillez sélectionner une réponse" />
 
     <Button
         android:id="@+id/confirmButton"
