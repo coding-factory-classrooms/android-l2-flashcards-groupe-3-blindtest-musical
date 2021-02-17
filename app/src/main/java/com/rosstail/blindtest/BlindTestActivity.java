@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class BlindTestActivity extends AppCompatActivity {
 
@@ -26,37 +27,77 @@ public class BlindTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_blind_test);
 
         RadioGroup group = findViewById(R.id.radioGroup);
-        RadioButton button;
         JSONObject obj = readData();
         if (obj == null) {
             return;
         }
-        Object question = getRandomTitle(obj);
+        JSONObject question = getRandomTitle(obj);
         if (question == null) {
             return;
         }
         Log.i("Question", question.toString());
-        for(int i = 0; i < 3; i++) {
-            button = new RadioButton(this);
-            button.setText("Button " + i);
-            group.addView(button);
-        }
+        addAnswers(obj, group, question, 4);
     }
 
-    private Object getRandomTitle(JSONObject data) {
+    private JSONObject getRandomTitle(JSONObject data) {
         try {
             JSONArray titleList = data.getJSONArray("questions");
             int i = getRandomNumber(0, titleList.length());
-            return titleList.get(i);
+            return titleList.getJSONObject(i);
         } catch (JSONException e) {
-            Log.e("BlindeTestActivity", "getRandomTitle()" + e.getCause());
+            Log.e("BlindTestActivity", "getRandomTitle()" + e.getCause());
+        }
+        return null;
+    }
+
+    private void addAnswers(JSONObject obj, RadioGroup group, JSONObject question, int nbAnswer) {
+        JSONArray answersJson = getAnswers(obj);
+        if (answersJson == null) {
+            return;
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        int len = answersJson.length();
+        for (int i=0;i<len;i++){
+            try {
+                list.add(answersJson.get(i).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        String artist = null;
+        try {
+            artist = question.get("artist").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (artist == null) {
+            return;
+        }
+        Log.w("init list", list.toString());
+        list.remove(artist);
+        for(int i = 0; i < nbAnswer; i++) {
+            Log.w("list step " + i, list.toString());
+            String answer = list.get(getRandomNumber(0, list.size()));
+            RadioButton button = new RadioButton(this);
+            button.setText(answer);
+            group.addView(button);
+            list.remove(answer);
+        }
+    }
+
+    private JSONArray getAnswers(JSONObject data) {
+        try {
+            return data.getJSONArray("artists");
+        } catch (JSONException e) {
+            Log.e("BlindTestActivity", "getRandomAnswer()" + e.getCause());
         }
         return null;
     }
 
     private JSONObject readData() {
         InputStream is;
-        String str_data = "";
+        String str_data;
         try {
             is = BlindTestActivity.this.getAssets().open("data.json");
             int size = is.available();

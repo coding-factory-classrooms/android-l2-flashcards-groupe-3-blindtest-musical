@@ -1,9 +1,9 @@
 {
   "questions" : [
-    {"mp3" :  "nomdufichier", "artiste" :  "mj"},
-    {"mp3" :  "nomdufichier", "artiste" :  "madonna"}
+    {"mp3" :  "mj_thriller.mp3", "artist" :  "mj"},
+    {"mp3" :  "nomdufichier", "artist" :  "madonna"}
   ],
-  "artistes" : [
-    "azedaz", "zedazef", "ddddd", "madonna"
+  "artists" : [
+    "mj", "sambello", "carpenter brut", "madonna", "u2"
   ]
 }
