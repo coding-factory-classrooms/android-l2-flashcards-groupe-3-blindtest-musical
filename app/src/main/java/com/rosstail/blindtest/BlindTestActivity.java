@@ -39,22 +39,27 @@ public class BlindTestActivity extends AppCompatActivity {
         }
         Log.i("Question", question.toString());
         addAnswers(obj, group, question, 4);
+        try {
+            String artist = question.get("artist").toString();
 
-        Button confirmButton = findViewById(R.id.confirmButton);
-        confirmButton.setOnClickListener(v -> {
-            int checkedID = group.getCheckedRadioButtonId();
-            if ( checkedID != -1) {
-                RadioButton radioButton = (RadioButton) findViewById(checkedID);
-                if (radioButton.getText().toString().equalsIgnoreCase(question.toString())) {
-                    Log.i("WRIGHT", "ANSWER");
-                    finish();
+            Button confirmButton = findViewById(R.id.confirmButton);
+            confirmButton.setOnClickListener(v -> {
+                int checkedID = group.getCheckedRadioButtonId();
+                if ( checkedID != -1) {
+                    RadioButton radioButton = (RadioButton) findViewById(checkedID);
+                    if (radioButton.getText().toString().equalsIgnoreCase(artist)) {
+                        Log.i("WRIGHT", "ANSWER");
+                        finish();
+                    } else {
+                        Log.w("WRONG", "ANSWER");
+                    }
                 } else {
-                    Log.w("WRONG", "ANSWER");
+                    Log.e("Unchecked", "Not checked");
                 }
-            } else {
-                Log.e("Unchecked", "Not checked");
-            }
-        });
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private JSONObject getRandomTitle(JSONObject data) {
@@ -92,13 +97,18 @@ public class BlindTestActivity extends AppCompatActivity {
         if (artist == null) {
             return;
         }
+        int rightAnswerIndex = getRandomNumber(0, nbAnswer);
         list.remove(artist);
         for(int i = 0; i < nbAnswer; i++) {
-            String answer = list.get(getRandomNumber(0, list.size()));
             RadioButton button = new RadioButton(this);
-            button.setText(answer);
+            if (i != rightAnswerIndex) {
+                String answer = list.get(getRandomNumber(0, list.size()));
+                button.setText(answer);
+                list.remove(answer);
+            } else {
+                button.setText(artist);
+            }
             group.addView(button);
-            list.remove(answer);
         }
     }
 
