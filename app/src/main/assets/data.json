@@ -1,9 +1,18 @@
 {
   "questions" : [
     {"mp3" :  "mj_thriller.mp3", "artist" :  "mj"},
-    {"mp3" :  "nomdufichier", "artist" :  "madonna"}
+    {"mp3" :  "Madonna_Frozen.mp3", "artist" :  "madonna"},
+    {"mp3" :  "CelineDion_Pourquetumaimesencore.mp3", "artist" :  "Celine Dion"},
+    {"mp3" :  "Eurythmics_SweetDreams.mp3", "artist" :  "Eurythmics"},
+    {"mp3" :  "Firework_KatyPerry.mp3", "artist" :  "Katy Perry"},
+    {"mp3" :  "FreezeCorleone_Desiigner.mp3", "artist" :  "Freeze Corleone"},
+    {"mp3" :  "LP_LostOnYou.mp3", "artist" :  "LP"},
+    {"mp3" :  "ToveLo-Habits.mp3", "artist" :  "Tove Lo"},
+    {"mp3" :  "Sexiondassaut_Watibynight.mp3", "artist" :  "Sexion d'assaut"},
+    {"mp3" :  "U2_One.mp3", "artist" :  "U2",},
   ],
   "artists" : [
-    "mj", "sambello", "carpenter brut", "madonna", "u2"
+    "mj", "sambello", "carpenter brut", "madonna", "u2","Booba","shakira","Celine Dion","Katy Perry",
+    "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d'assaut","Freeze Corleone"
   ]
 }
