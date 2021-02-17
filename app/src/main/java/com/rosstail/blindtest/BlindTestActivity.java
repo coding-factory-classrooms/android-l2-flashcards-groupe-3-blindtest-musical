@@ -3,8 +3,10 @@ package com.rosstail.blindtest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -37,6 +39,22 @@ public class BlindTestActivity extends AppCompatActivity {
         }
         Log.i("Question", question.toString());
         addAnswers(obj, group, question, 4);
+
+        Button confirmButton = findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(v -> {
+            int checkedID = group.getCheckedRadioButtonId();
+            if ( checkedID != -1) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedID);
+                if (radioButton.getText().toString().equalsIgnoreCase(question.toString())) {
+                    Log.i("WRIGHT", "ANSWER");
+                    finish();
+                } else {
+                    Log.w("WRONG", "ANSWER");
+                }
+            } else {
+                Log.e("Unchecked", "Not checked");
+            }
+        });
     }
 
     private JSONObject getRandomTitle(JSONObject data) {
@@ -74,10 +92,8 @@ public class BlindTestActivity extends AppCompatActivity {
         if (artist == null) {
             return;
         }
-        Log.w("init list", list.toString());
         list.remove(artist);
         for(int i = 0; i < nbAnswer; i++) {
-            Log.w("list step " + i, list.toString());
             String answer = list.get(getRandomNumber(0, list.size()));
             RadioButton button = new RadioButton(this);
             button.setText(answer);
