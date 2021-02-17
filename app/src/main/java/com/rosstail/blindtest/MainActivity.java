@@ -1,6 +1,8 @@
 package com.rosstail.blindtest;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +21,18 @@ public class MainActivity extends AppCompatActivity {
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playClick();
+                //playClick();
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button blindTestButton = findViewById(R.id.blindTestButton);
+        blindTestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BlindTestActivity.class);
+                startActivity(intent);
             }
         });
     }

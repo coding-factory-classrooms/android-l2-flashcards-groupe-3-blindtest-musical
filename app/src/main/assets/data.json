@@ -1,0 +1,9 @@
+{
+  "questions" : [
+    {"mp3" :  "nomdufichier", "artiste" :  "mj"},
+    {"mp3" :  "nomdufichier", "artiste" :  "madonna"}
+  ],
+  "artistes" : [
+    "azedaz", "zedazef", "ddddd", "madonna"
+  ]
+}
