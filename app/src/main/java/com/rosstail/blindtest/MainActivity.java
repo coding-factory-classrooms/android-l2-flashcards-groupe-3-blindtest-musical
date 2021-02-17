@@ -10,8 +10,6 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +33,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-
-
-    public void playClick(){
-        mp = MediaPlayer.create(MainActivity.this, R.raw.mj_thriller);
-        mp.start();
     }
 }

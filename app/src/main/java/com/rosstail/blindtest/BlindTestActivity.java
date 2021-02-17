@@ -3,8 +3,11 @@ package com.rosstail.blindtest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -18,13 +21,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class BlindTestActivity extends AppCompatActivity {
+public class BlindTestActivity extends AppCompatActivity implements View.OnClickListener {
 
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blind_test);
+
+        findViewById(R.id.playerButton).setOnClickListener(this);
+        findViewById(R.id.stopButton).setOnClickListener(this);
+
 
         RadioGroup group = findViewById(R.id.radioGroup);
         JSONObject obj = readData();
@@ -35,6 +43,22 @@ public class BlindTestActivity extends AppCompatActivity {
         if (question == null) {
             return;
         }
+
+        // Create Media Player //
+
+        String fileName = null;
+        try {
+            fileName = question.get("mp3").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("blindtestactivity", fileName);
+        int fileId = this.getResources().getIdentifier("mj_thriller.mp3", "raw", this.getPackageName());
+
+        createPlayer("mj_thriller");
+
+        // ------------------- //
+
         Log.i("Question", question.toString());
         addAnswers(obj, group, question, 4);
     }
@@ -118,4 +142,36 @@ public class BlindTestActivity extends AppCompatActivity {
     private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
+
+    public void createPlayer(String fileName){
+        int fileId = getResources().getIdentifier(fileName, "raw", getPackageName());
+        Log.e("blindactivity", fileId+"");
+        mp = MediaPlayer.create(this, fileId);
+        //mp.start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.playerButton :
+                Log.e("blindactivity", "play test");
+                mp.start();
+                break;
+            case R.id.stopButton :
+                Log.e("blindactivity", "stop test");
+                mp.pause();
+                break;
+        }
+    }
+
+    /*@Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            //case R.id.playerButton :
+              //  createPlayer("mj_thriller");
+                //break;
+            case R.id.stopButton :
+                mp.stop();
+        }
+    }*/
 }
