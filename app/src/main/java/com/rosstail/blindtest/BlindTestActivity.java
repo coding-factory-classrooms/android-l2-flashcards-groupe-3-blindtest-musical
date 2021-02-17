@@ -57,9 +57,9 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
             e.printStackTrace();
         }
         Log.e("player activity", fileName);
-        //int fileId = this.getResources().getIdentifier("mj_thriller.mp3", "raw", this.getPackageName());
-
-        createPlayer("mj_thriller");
+        String playerFileName = fileName.replace(".mp3", "");
+        Log.d("test123", playerFileName);
+        createPlayer(playerFileName);
 
         // ------------------- //
 
