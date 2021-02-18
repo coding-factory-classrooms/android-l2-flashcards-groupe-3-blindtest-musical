@@ -2,8 +2,6 @@ package com.rosstail.blindtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -14,19 +12,20 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlindTestActivity extends AppCompatActivity implements View.OnClickListener {
 
     MediaPlayer mp;
+
+    SongList songList;
+    AnswerList answerList;
+    int numberTitles;
+    int numberAnswers;
+    int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +36,33 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.stopButton).setOnClickListener(this);
 
         RadioGroup group = findViewById(R.id.radioGroup);
-        JSONObject obj = readData();
-        if (obj == null) {
-            finish();
-            return;
-        }
         // get difficulty choice of the user
 
         Intent srcIntent = getIntent();
         int difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
+        songList = srcIntent.getParcelableExtra("songs");
+        answerList = srcIntent.getParcelableExtra("answers");
+        numberTitles = srcIntent.getIntExtra("titleNumber", 0);
+        numberAnswers = srcIntent.getIntExtra("answerNumber", 0);
+        score = srcIntent.getIntExtra("score", 0);
 
-        Log.e("blindactivitytest", difficultyChoice + "");
+        Log.e("BLIND TEST ACTIVITY", difficultyChoice + "");
+        ArrayList<SongData> songs = songList.songs;
 
-        JSONObject question = getRandomTitle(obj, difficultyChoice);
+        int index = getRandomNumber(0, songs.size());
+        SongData answerSong = songs.get(index);
+        String artist = answerSong.artist;
+        String fileName = answerSong.fileName;
+        songs.remove(index);
+        Log.e("blindactivitytest", artist + "");
 
-        Log.e("blindactivitytest", question + "");
-
-        if (question == null) {
+        if (artist == null || fileName == null) {
             finish();
             return;
         }
 
         // Create Media Player //
 
-        String fileName = null;
-        try {
-            fileName = question.get("mp3").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         Log.e("player activity", fileName);
         String playerFileName = fileName.replace(".mp3", "");
         Log.d("test123", playerFileName);
@@ -73,14 +70,8 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
 
         // ------------------- //
 
-        Log.i("Question", question.toString());
-        addAnswers(obj, group, question, 4);
-        try {
-            String artist = question.get("artist").toString();
-            setConfirm(group, artist);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        addAnswers(group, artist, getIntent().getIntExtra("answerNumber", 2));
+        setConfirm(group, artist);
     }
 
     private void setConfirm(RadioGroup group, String artist) {
@@ -91,9 +82,10 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
                 RadioButton radioButton = (RadioButton) findViewById(checkedID);
                 TextView label = findViewById(R.id.responseTextView);
                 if (radioButton.getText().toString().equalsIgnoreCase(artist)) {
-                    label.setText("Right answer !");
+                    score++;
+                    label.setText("Right answer ! " + score);
                 } else {
-                    label.setText("Too bad ! The correct answer is " + artist);
+                    label.setText("Too bad ! The correct answer is " + artist + " : " + score);
                 }
                 setNextToConfirm(confirmButton);
             }
@@ -107,59 +99,16 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private JSONObject getRandomTitle(JSONObject data, int difficulty) {
-        String difficultyStr = "easy";
-        switch (difficulty){
-            case 0 :
-                difficultyStr = "easy";
-                break;
-            case 1 :
-                difficultyStr = "medium";
-                break;
-            case 2 :
-                difficultyStr = "hard";
-                break;
-        }
-        try {
-            JSONArray allQuestionsList = data.getJSONArray("questions");
-
-            JSONObject difficultyList = allQuestionsList.getJSONObject(difficulty);
-            JSONArray test = difficultyList.getJSONArray(difficultyStr);
-
-            Log.e("blindactivitytest", difficultyList.toString());
-
-            int i = getRandomNumber(0, test.length());
-            return test.getJSONObject(i);
-        } catch (JSONException e) {
-            Log.e("BlindTestActivity", "getRandomTitle()" + e.getCause());
-        }
-        return null;
-    }
-
-    private void addAnswers(JSONObject obj, RadioGroup group, JSONObject question, int nbAnswer) {
-        JSONArray answersJson = getAnswers(obj);
-        if (answersJson == null) {
-            return;
-        }
+    private void addAnswers(RadioGroup group, String artist, int nbAnswer) {
+        ArrayList<String> answers = (ArrayList<String>) answerList.answers.clone();
 
         ArrayList<String> list = new ArrayList<>();
-        int len = answersJson.length();
+
+        int len = answers.size();
         for (int i=0;i<len;i++){
-            try {
-                list.add(answersJson.get(i).toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            list.add(answers.get(i));
         }
-        String artist = null;
-        try {
-            artist = question.get("artist").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (artist == null) {
-            return;
-        }
+
         int rightAnswerIndex = getRandomNumber(0, nbAnswer);
         list.remove(artist);
         for(int i = 0; i < nbAnswer; i++) {
@@ -173,35 +122,6 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
             }
             group.addView(button);
         }
-    }
-
-    private JSONArray getAnswers(JSONObject data) {
-        try {
-            return data.getJSONArray("artists");
-        } catch (JSONException e) {
-            Log.e("BlindTestActivity", "getRandomAnswer()" + e.getCause());
-        }
-        return null;
-    }
-
-    private JSONObject readData() {
-        InputStream is;
-        String str_data;
-        try {
-            is = BlindTestActivity.this.getAssets().open("data.json");
-            int size = is.available();
-            byte[] buffer = new byte[size]; //declare the size of the byte array with size of the file
-            is.read(buffer);
-            is.close();
-            str_data = new String(buffer);
-            return new JSONObject(str_data);
-            //Log.w("test", new JSONObject(str_data).getJSONArray("artistes").toString());
-        } catch (IOException | JSONException e) {
-            Log.e("BlindTestActivity", "Read Data Error");
-            e.printStackTrace();
-        }
-        //Log.w("BlindTest onCreate", str_data);
-        return null;
     }
 
     private int getRandomNumber(int min, int max) {
