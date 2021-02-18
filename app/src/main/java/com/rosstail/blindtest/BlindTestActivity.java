@@ -15,7 +15,6 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BlindTestActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,7 +35,6 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.stopButton).setOnClickListener(this);
 
         RadioGroup group = findViewById(R.id.radioGroup);
-        // get difficulty choice of the user
 
         Intent srcIntent = getIntent();
         int difficultyChoice = srcIntent.getIntExtra("difficulty", 1);

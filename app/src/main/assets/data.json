@@ -69,22 +69,11 @@
       ]
     }
   ],
-  "artists": [
-    "mj",
-    "sambello",
-    "carpenter brut",
-    "madonna",
-    "u2",
-    "Booba",
-    "shakira",
-    "Celine Dion",
-    "Katy Perry",
-    "LP",
-    "Tove Lo",
-    "Lana Del Rey ",
-    "Pomme",
-    "Eurythmics",
-    "sexion d'assaut",
-    "Freeze Corleone"
+
+  "artists" : [
+    "mj", "sambello", "carpenter brut", "madonna", "u2","Booba","shakira","Celine Dion","Katy Perry",
+    "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d'assaut","Freeze Corleone","Arianna Grande",
+    "Drake","Etienne Bourofonce"
+
   ]
 }

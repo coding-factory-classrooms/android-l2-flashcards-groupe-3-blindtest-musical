@@ -71,6 +71,15 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+
+        Button allQuestionsButton = findViewById(R.id.allQuestionsButton);
+        allQuestionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SoundsListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

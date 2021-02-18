@@ -10,9 +10,35 @@
         android:id="@+id/versionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:text="Version 2.2" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="410dp"
+        android:layout_height="48dp"
+        android:text="Blindtest"
+        android:textAlignment="center"
+        android:textScaleX="1"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/groupeTextView"
+        android:layout_width="175dp"
+        android:layout_height="122dp"
+        android:layout_marginBottom="120dp"
+        android:gravity="center_horizontal"
+        android:text="Groupe 3:Pierre, Anthony, Amine et Eliott"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/versionTextView"
+        app:layout_constraintEnd_toEndOf="@+id/versionTextView"
+        app:layout_constraintStart_toStartOf="@+id/versionTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
