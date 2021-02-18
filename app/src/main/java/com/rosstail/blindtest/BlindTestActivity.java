@@ -12,9 +12,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class BlindTestActivity extends AppCompatActivity implements View.OnClickListener {
@@ -23,6 +20,8 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
 
     String level;
     SongList songList;
+    ArrayList<SongData> songDatas;
+    SongData rightAnswer;
     AnswerList answerList;
     int difficultyChoice;
     int numberTitles;
@@ -46,11 +45,11 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         songList = srcIntent.getParcelableExtra("songs");
 
         // Set the number of pages
-        ArrayList<SongData> songs = songList.songs;
+        songDatas = (ArrayList<SongData>) songList.songs.clone();
         TextView offPage = findViewById(R.id.offPageTextView);
-        offPage.setText("/ " + songs.size());
+        offPage.setText("/ " + songDatas.size());
         //numberAnswers = songs.size();
-        numberOfQuestions = songs.size();
+        numberOfQuestions = songDatas.size();
         answerList = srcIntent.getParcelableExtra("answers");
         /*numberTitles = srcIntent.getIntExtra("titleNumber", 0);
         numberAnswers = srcIntent.getIntExtra("answerNumber", 0);
@@ -59,13 +58,10 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         Log.e("BLIND TEST ACTIVITY", difficultyChoice + "");
 
 
-        int index = getRandomNumber(0, songs.size());
-        SongData answerSong = songs.get(index);
+        int index = getRandomNumber(0, songDatas.size());
+        rightAnswer = songDatas.get(index);
 
-        // We remove the song displayed from the song list to not repeat it
-        songs.remove(answerSong);
-
-        displaySong(answerSong, group);
+        displaySong(rightAnswer, group);
 
     }
 
@@ -116,19 +112,22 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
     private void setNextToConfirm(Button confirmButton, RadioGroup group) {
         confirmButton.setText("Next");
         confirmButton.setOnClickListener(b -> {
-            if (songList.songs.size() <= 0){
-                // Nouvelle activity avec recap score etc + finish
-            }
-            else {
+            songDatas.remove(rightAnswer);
+            if (songDatas.size() <= 0 || indexPage == numberOfQuestions) {
+                Log.e("Game Over", score + " / " + numberOfQuestions);
+                finish();
+            } else {
                 indexPage++;
-                int index = getRandomNumber(0, songList.songs.size());
-                SongData answerSong = songList.songs.get(index);
+                int index = getRandomNumber(0, songDatas.size());
+                rightAnswer = songDatas.get(index);
                 mp.stop();
-                setConfirm(group, answerSong.getArtist());
+                setConfirm(group, rightAnswer.getArtist());
                 group.clearCheck();
                 group.removeAllViews();
 
-                displaySong(answerSong, group);
+                TextView label = findViewById(R.id.responseTextView);
+                label.setText("Veuillez sélectionner une réponse. ");
+                displaySong(rightAnswer, group);
             }
             Log.i("Next page", "TEST");
         });
@@ -175,6 +174,7 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int getRandomNumber(int min, int max) {
+        Log.e("range", "" + max);
         return (int) ((Math.random() * (max - min)) + min);
     }
 

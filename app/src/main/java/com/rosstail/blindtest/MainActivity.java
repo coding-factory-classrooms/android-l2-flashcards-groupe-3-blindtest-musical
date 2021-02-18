@@ -114,20 +114,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void cloneDifficultySongs(int level) {
         String difficultyStr;
-        int nbOfQuestions;
 
         switch(level) {
             case 1 :
                 difficultyStr = "medium";
-                nbOfQuestions = 3;
                 break;
             case 2 :
                 difficultyStr = "hard";
-                nbOfQuestions = 4;
                 break;
             default:
                 difficultyStr = "easy";
-                nbOfQuestions = 2;
                 break;
         }
 
@@ -137,9 +133,10 @@ public class MainActivity extends AppCompatActivity {
             JSONObject difficultyList = allQuestionsList.getJSONObject(level);
             JSONArray test = difficultyList.getJSONArray(difficultyStr);
             ArrayList<SongData> tempSongs = new ArrayList<>();
-            for (int i = 0; i < nbOfQuestions; i++) {
+            for (int i = 0; i < test.length(); i++) {
                 JSONObject jsonObject = test.getJSONObject(i);
                 SongData song = new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr);
+                Log.i("" + i, jsonObject.get("artist").toString());
                 tempSongs.add(song);
             }
             songList = new SongList(tempSongs);
