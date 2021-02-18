@@ -42,7 +42,17 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
             finish();
             return;
         }
-        JSONObject question = getRandomTitle(obj);
+        // get difficulty choice of the user
+
+        Intent srcIntent = getIntent();
+        int difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
+
+        Log.e("blindactivitytest", difficultyChoice + "");
+
+        JSONObject question = getRandomTitle(obj, difficultyChoice);
+
+        Log.e("blindactivitytest", question + "");
+
         if (question == null) {
             finish();
             return;
@@ -97,11 +107,29 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private JSONObject getRandomTitle(JSONObject data) {
+    private JSONObject getRandomTitle(JSONObject data, int difficulty) {
+        String difficultyStr = "easy";
+        switch (difficulty){
+            case 0 :
+                difficultyStr = "easy";
+                break;
+            case 1 :
+                difficultyStr = "medium";
+                break;
+            case 2 :
+                difficultyStr = "hard";
+                break;
+        }
         try {
-            JSONArray titleList = data.getJSONArray("questions");
-            int i = getRandomNumber(0, titleList.length());
-            return titleList.getJSONObject(i);
+            JSONArray allQuestionsList = data.getJSONArray("questions");
+
+            JSONObject difficultyList = allQuestionsList.getJSONObject(difficulty);
+            JSONArray test = difficultyList.getJSONArray(difficultyStr);
+
+            Log.e("blindactivitytest", difficultyList.toString());
+
+            int i = getRandomNumber(0, test.length());
+            return test.getJSONObject(i);
         } catch (JSONException e) {
             Log.e("BlindTestActivity", "getRandomTitle()" + e.getCause());
         }
