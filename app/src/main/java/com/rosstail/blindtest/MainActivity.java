@@ -1,11 +1,13 @@
 package com.rosstail.blindtest;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -112,18 +114,25 @@ public class MainActivity extends AppCompatActivity {
      * @param level
      * @return
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void cloneDifficultySongs(int level) {
         String difficultyStr;
+
+        // nbOfQuestions let us set the quantity of questions for each level
+        int nbOfQuestions;
 
         switch(level) {
             case 1 :
                 difficultyStr = "medium";
+                nbOfQuestions = 3;
                 break;
             case 2 :
                 difficultyStr = "hard";
+                nbOfQuestions = 5;
                 break;
             default:
                 difficultyStr = "easy";
+                nbOfQuestions = 2;
                 break;
         }
 
@@ -133,13 +142,22 @@ public class MainActivity extends AppCompatActivity {
             JSONObject difficultyList = allQuestionsList.getJSONObject(level);
             JSONArray test = difficultyList.getJSONArray(difficultyStr);
             ArrayList<SongData> tempSongs = new ArrayList<>();
-            for (int i = 0; i < test.length(); i++) {
-                JSONObject jsonObject = test.getJSONObject(i);
+            for (int i = 0; i < nbOfQuestions; i++) {
+
+                // this random index picks one song and put it in the questions list (songList)
+                int randIndex = getRandomNumber(0, test.length());
+                JSONObject jsonObject = test.getJSONObject(randIndex);
+                // remove the pick to not pick it again
+                test.remove(randIndex);
                 SongData song = new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr);
                 Log.i("" + i, jsonObject.get("artist").toString());
                 tempSongs.add(song);
             }
             songList = new SongList(tempSongs);
+            for (SongData aze:songList.songs) {
+                Log.i("lastTest", aze.getArtist()+" / "+ aze.getFileName());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -167,6 +185,10 @@ public class MainActivity extends AppCompatActivity {
             case 2 :
                 return 4;
         }
+    }
+    private int getRandomNumber(int min, int max) {
+        Log.e("range", "" + max);
+        return (int) ((Math.random() * (max - min)) + min);
     }
 
     private int getAnswerNumber(int level) {

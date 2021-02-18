@@ -18,14 +18,11 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
 
     MediaPlayer mp;
 
-    String level;
     SongList songList;
     ArrayList<SongData> songDatas;
     SongData rightAnswer;
     AnswerList answerList;
     int difficultyChoice;
-    int numberTitles;
-    int numberAnswers;
     int numberOfQuestions;
     int score;
     int indexPage = 1;
@@ -41,6 +38,13 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         RadioGroup group = findViewById(R.id.radioGroup);
 
         Intent srcIntent = getIntent();
+
+        SongData test = srcIntent.getParcelableExtra("question");
+        if (test != null){
+            Log.e("lalala", test.getArtist());
+        }
+
+
         difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
         songList = srcIntent.getParcelableExtra("songs");
 
@@ -81,7 +85,6 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
 
         Log.e("player activity", fileName);
         String playerFileName = fileName.replace(".mp3", "");
-        Log.d("test123", playerFileName);
         createPlayer(playerFileName);
 
         // ------------------- //
@@ -113,8 +116,29 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         confirmButton.setText("Next");
         confirmButton.setOnClickListener(b -> {
             songDatas.remove(rightAnswer);
+
+            // No more question, we go to ScoreActivity
             if (songDatas.size() <= 0 || indexPage == numberOfQuestions) {
                 Log.e("Game Over", score + " / " + numberOfQuestions);
+                Intent intent = new Intent(BlindTestActivity.this, ScoreActivity.class);
+                intent.putExtra("score", score);
+                intent.putExtra("numberOfQuestions", numberOfQuestions);
+
+                String levelScore;
+                switch (difficultyChoice){
+                    case 1 :
+                        levelScore = "Moyen";
+                        break;
+                    case 2 :
+                        levelScore = "Difficile";
+                        break;
+                    default:
+                        levelScore = "Facile";
+                }
+
+                intent.putExtra("level", levelScore);
+                startActivity(intent);
+                mp.stop();
                 finish();
             } else {
                 indexPage++;
