@@ -42,7 +42,7 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
             finish();
             return;
         }
-        // get difficulty choice of the user
+        // get user's difficulty choice
 
         Intent srcIntent = getIntent();
         int difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
