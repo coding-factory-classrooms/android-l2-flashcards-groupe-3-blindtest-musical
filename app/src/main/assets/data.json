@@ -3,6 +3,18 @@
     {
       "easy": [
         {
+          "mp3": "billieeilish_notimetodie.mp3",
+          "artist": "Billie Eilish"
+        },
+        {
+          "mp3": "comptinedunautreété_Amélie.mp3",
+          "artist": "Amelie"
+        },
+        {
+          "mp3": "eminem_rapgod.mp3",
+          "artist": "eminem"
+        },
+        {
           "mp3": "mj_thriller.mp3",
           "artist": "mj"
         },
@@ -23,20 +35,20 @@
     {
       "medium": [
         {
-          "mp3": "mj_thriller.mp3",
-          "artist": "mj"
+          "mp3": "lanadelrey_borntodie.mp3",
+          "artist": "Lana Del Rey"
         },
         {
-          "mp3": "madonna_frozen.mp3",
-          "artist": "madonna"
+          "mp3": "pnl_blanka.mp3",
+          "artist": "PNL"
         },
         {
-          "mp3": "celinedion_pourquetumaimesencore.mp3",
-          "artist": "Celine Dion"
+          "mp3": "pomme_grandiose.mp3",
+          "artist": "Pomme"
         },
         {
-          "mp3": "eurythmics_sweetdreams.mp3",
-          "artist": "Eurythmics"
+          "mp3": "roddyricch_thebox.mp3",
+          "artist": "Roddy Ricch"
         },
         {
           "mp3": "firework_katyperry.mp3",
@@ -63,6 +75,10 @@
           "artist": "Sexion d'assaut"
         },
         {
+          "mp3": "snk_musiquegenerique.mp3",
+          "artist": "SnK"
+        },
+        {
           "mp3": "u2_one.mp3",
           "artist": "u2"
         }
@@ -73,7 +89,8 @@
   "artists" : [
     "mj", "sambello", "carpenter brut", "madonna", "u2","Booba","shakira","Celine Dion","Katy Perry",
     "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d'assaut","Freeze Corleone","Arianna Grande",
-    "Drake","Etienne Bourofonce"
+    "Drake","Etienne Bourofonce","Billie Eilish","Amélie","Eminem","PNL","Roddy Ricch","SnK","Sch","Taylor Swift",
+    "Bruno mars","The Weekend","Anthony Pascal",
 
   ]
 }
