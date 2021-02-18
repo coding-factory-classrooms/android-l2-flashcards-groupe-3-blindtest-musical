@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("songs", (Parcelable) songList);
                         intent.putExtra("answers", (Parcelable) answerList);
                         intent.putExtra("titleNumber", getTitleNumber(which));
-                        intent.putExtra("answerNumber", getAnswerNumber(which));
-                        intent.putExtra("score", 0);
+                        //intent.putExtra("answerNumber", getAnswerNumber(which));
+                        //intent.putExtra("score", 0);
                         startActivity(intent);
                     }
                 });
@@ -114,15 +114,20 @@ public class MainActivity extends AppCompatActivity {
      */
     private void cloneDifficultySongs(int level) {
         String difficultyStr;
+        int nbOfQuestions;
+
         switch(level) {
             case 1 :
                 difficultyStr = "medium";
+                nbOfQuestions = 3;
                 break;
             case 2 :
                 difficultyStr = "hard";
+                nbOfQuestions = 4;
                 break;
             default:
                 difficultyStr = "easy";
+                nbOfQuestions = 2;
                 break;
         }
 
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject difficultyList = allQuestionsList.getJSONObject(level);
             JSONArray test = difficultyList.getJSONArray(difficultyStr);
             ArrayList<SongData> tempSongs = new ArrayList<>();
-            for (int i = 0; i < test.length(); i++) {
+            for (int i = 0; i < nbOfQuestions; i++) {
                 JSONObject jsonObject = test.getJSONObject(i);
                 SongData song = new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr);
                 tempSongs.add(song);
