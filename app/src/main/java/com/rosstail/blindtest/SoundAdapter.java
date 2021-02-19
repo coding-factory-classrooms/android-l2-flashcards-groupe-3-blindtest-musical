@@ -49,7 +49,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> 
         SongData question = songList.songs.get(position);
 
         String difficulty = question.getDifficulty();
-        holder.difficulty.setText(difficulty);
+        holder.difficulty.setText(difficulty + "\n" + question.getTitle());
 
         holder.itemView.setTag(question);
         holder.itemView.setOnClickListener(this);

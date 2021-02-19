@@ -7,17 +7,20 @@ public class SongData implements Parcelable {
     String fileName;
     String artist;
     String difficulty;
+    String title;
 
-    public SongData(String fileName, String artist, String difficulty) {
+    public SongData(String fileName, String artist, String difficulty, String title) {
         this.fileName = fileName;
         this.artist = artist;
         this.difficulty = difficulty;
+        this.title = title;
     }
 
     protected SongData(Parcel in) {
         fileName = in.readString();
         artist = in.readString();
         difficulty = in.readString();
+        title = in.readString();
     }
 
     public static final Creator<SongData> CREATOR = new Creator<SongData>() {
@@ -42,6 +45,10 @@ public class SongData implements Parcelable {
 
     public String getDifficulty() {
         return difficulty;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     @Override

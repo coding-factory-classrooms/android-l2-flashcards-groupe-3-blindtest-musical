@@ -4,31 +4,38 @@
       "easy": [
         {
           "mp3": "billieeilish_notimetodie.mp3",
-          "artist": "Billie Eilish"
+          "artist": "Billie Eilish",
+          "title": "Billie Eilish"
         },
         {
           "mp3": "comptinedunautreete_amelie.mp3",
-          "artist": "Amelie"
+          "artist": "Amelie",
+          "title": "Comptine d\\'un autre été"
         },
         {
           "mp3": "eminem_rapgod.mp3",
-          "artist": "eminem"
+          "artist": "eminem",
+          "title": "Rap God"
         },
         {
           "mp3": "mj_thriller.mp3",
-          "artist": "mj"
+          "artist": "mj",
+          "title": "Thriller"
         },
         {
           "mp3": "madonna_frozen.mp3",
-          "artist": "madonna"
+          "artist": "madonna",
+          "title": "Frozen"
         },
         {
           "mp3": "celinedion_pourquetumaimesencore.mp3",
-          "artist": "Celine Dion"
+          "artist": "Celine Dion",
+          "title": "Pour que tu m\\'aimes encore"
         },
         {
           "mp3": "eurythmics_sweetdreams.mp3",
-          "artist": "Eurythmics"
+          "artist": "Eurythmics",
+          "title": "Sweet Dreams"
         }
       ]
     },
@@ -36,23 +43,28 @@
       "medium": [
         {
           "mp3": "lanadelrey_borntodie.mp3",
-          "artist": "Lana Del Rey"
+          "artist": "Lana Del Rey",
+          "title": "Born to die"
         },
         {
           "mp3": "pnl_blanka.mp3",
-          "artist": "PNL"
+          "artist": "PNL",
+          "title": "Blanka"
         },
         {
           "mp3": "pomme_grandiose.mp3",
-          "artist": "Pomme"
+          "artist": "Pomme",
+          "title": "Grandiose"
         },
         {
           "mp3": "roddyricch_thebox.mp3",
-          "artist": "Roddy Ricch"
+          "artist": "Roddy Ricch",
+          "title": "The Box"
         },
         {
           "mp3": "firework_katyperry.mp3",
-          "artist": "Katy Perry"
+          "artist": "Katy Perry",
+          "title": "Firework"
         }
       ]
     },
@@ -60,27 +72,33 @@
       "hard": [
         {
           "mp3": "freezecorleone_desiigner.mp3",
-          "artist": "Freeze Corleone"
+          "artist": "Freeze Corleone",
+          "title": "Desiigner"
         },
         {
           "mp3": "lp_lostonyou.mp3",
-          "artist": "LP"
+          "artist": "LP",
+          "title": "Lost on you"
         },
         {
           "mp3": "tovelo_habits.mp3",
-          "artist": "Tove Lo"
+          "artist": "Tove Lo",
+          "title": "Habits"
         },
         {
           "mp3": "sexiondassaut_watibynight.mp3",
-          "artist": "Sexion d'assaut"
+          "artist": "Sexion d\\'assaut",
+          "title": "Wati by night"
         },
         {
           "mp3": "snk_musiquegenerique.mp3",
-          "artist": "SnK"
+          "artist": "SnK",
+          "title": "Main theme"
         },
         {
           "mp3": "u2_one.mp3",
-          "artist": "u2"
+          "artist": "u2",
+          "title": "One"
         }
       ]
     }
@@ -88,7 +106,7 @@
 
   "artists" : [
     "mj", "sambello", "carpenter brut", "madonna", "u2","Booba","shakira","Celine Dion","Katy Perry",
-    "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d'assaut","Freeze Corleone","Arianna Grande",
+    "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d\\'assaut","Freeze Corleone","Arianna Grande",
     "Drake","Etienne Bourofonce","Billie Eilish","Amélie","Eminem","PNL","Roddy Ricch","SnK","Sch","Taylor Swift",
     "Bruno mars","The Weekend","Anthony Pascal"
   ]

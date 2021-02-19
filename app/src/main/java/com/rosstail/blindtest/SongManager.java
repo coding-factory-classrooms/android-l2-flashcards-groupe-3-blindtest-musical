@@ -51,7 +51,7 @@ public class SongManager {
             ArrayList<SongData> difficultySongs = new ArrayList<>();
             for (int i = 0; i < test.length(); i++) {
                 JSONObject jsonObject = test.getJSONObject(i);
-                difficultySongs.add(new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr));
+                difficultySongs.add(new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr, jsonObject.get("title").toString()));
             }
 
             for (int i = 0; i < nbOfQuestions; i++) {
@@ -141,8 +141,9 @@ public class SongManager {
                     JSONObject item= jsonArrayByLevel.getJSONObject(j);
                     String mp3 = item.getString("mp3");
                     String artist = item.getString("artist");
+                    String title = item.getString("title");
 
-                    SongData newSong = new SongData(mp3, artist, keyStr);
+                    SongData newSong = new SongData(mp3, artist, keyStr, title);
                     Log.i("allquestionsInLoop", newSong+"");
                     //Log.i("allSongs", allSongs.songs+"");
                     tempSongs.add(newSong);
