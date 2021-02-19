@@ -5,12 +5,12 @@
         {
           "mp3": "billieeilish_notimetodie.mp3",
           "artist": "Billie Eilish",
-          "title": "Billie Eilish"
+          "title": "No time do die"
         },
         {
           "mp3": "comptinedunautreete_amelie.mp3",
           "artist": "Amelie",
-          "title": "Comptine d\\'un autre été"
+          "title": "Comptine d'un autre été"
         },
         {
           "mp3": "eminem_rapgod.mp3",
@@ -30,7 +30,7 @@
         {
           "mp3": "celinedion_pourquetumaimesencore.mp3",
           "artist": "Celine Dion",
-          "title": "Pour que tu m\\'aimes encore"
+          "title": "Pour que tu m'aimes encore"
         },
         {
           "mp3": "eurythmics_sweetdreams.mp3",
@@ -87,7 +87,7 @@
         },
         {
           "mp3": "sexiondassaut_watibynight.mp3",
-          "artist": "Sexion d\\'assaut",
+          "artist": "Sexion d'assaut",
           "title": "Wati by night"
         },
         {
@@ -106,7 +106,7 @@
 
   "artists" : [
     "mj", "sambello", "carpenter brut", "madonna", "u2","Booba","shakira","Celine Dion","Katy Perry",
-    "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d\\'assaut","Freeze Corleone","Arianna Grande",
+    "LP","Tove Lo","Lana Del Rey ","Pomme","Eurythmics","sexion d'assaut","Freeze Corleone","Arianna Grande",
     "Drake","Etienne Bourofonce","Billie Eilish","Amélie","Eminem","PNL","Roddy Ricch","SnK","Sch","Taylor Swift",
     "Bruno mars","The Weekend","Anthony Pascal"
   ]

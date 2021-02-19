@@ -39,7 +39,7 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         RadioGroup group = findViewById(R.id.radioGroup);
 
         Intent srcIntent = getIntent();
-        answerList = (AnswerList) srcIntent.getParcelableExtra("answers");
+        answerList = srcIntent.getParcelableExtra("answers");
 
         songFromList = srcIntent.getParcelableExtra("question");
         if (songFromList != null){

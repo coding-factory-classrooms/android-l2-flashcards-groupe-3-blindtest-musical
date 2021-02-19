@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("difficulty", which);
                         songManager.cloneDifficultySongs(which);
                         intent.putExtra("songs", (Parcelable) songManager.songList);
+
+                        Log.e("Main Activity", songManager.answerList.answers.toString());
                         intent.putExtra("answers", (Parcelable) songManager.answerList);
                         startActivity(intent);
                     }

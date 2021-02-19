@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class AnswerList implements Parcelable {
 
-    ArrayList<String> answers = new ArrayList<>();
+    ArrayList<String> answers;
 
     public AnswerList(ArrayList<String> answers) {
         this.answers = answers;
