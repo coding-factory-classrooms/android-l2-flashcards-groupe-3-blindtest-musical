@@ -14,10 +14,12 @@ import java.util.List;
 
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> implements View.OnClickListener {
 
-    private List<SongData> songList;
-
-    public SoundAdapter(List<SongData> songList) {
+    private final SongList songList;
+    SongList allSongs;
+    SongManager songManager;
+    public SoundAdapter(SongList songList, SongList allSongs) {
         this.songList = songList;
+        this.allSongs = allSongs;
     }
 
     @Override
@@ -27,7 +29,8 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> 
                 Context context = v.getContext();
                 SongData question = (SongData) v.getTag();
                 Intent intent = new Intent(context, BlindTestActivity.class);
-                //intent.putExtra("question", question);
+                intent.putExtra("question", question);
+                intent.putExtra("answers", allSongs);
                 context.startActivity(intent);
                 break;
         }
@@ -43,7 +46,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SoundAdapter.ViewHolder holder, int position) {
-        SongData question = songList.get(position);
+        SongData question = songList.songs.get(position);
 
         String difficulty = question.getDifficulty();
         holder.difficulty.setText(difficulty);
@@ -54,7 +57,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return songList.size();
+        return songList.songs.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -24,18 +24,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    JSONObject data;
-    SongList songList;
-    AnswerList answerList;
-    MediaPlayer mp;
+    SongManager songManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        App app = (App) getApplication();
 
-        data = readData();
-        cloneAnswers();
+        songManager = app.songManager;
+        songManager.loadSongs(this);
 
         Button aboutButton = findViewById(R.id.aboutButton);
         aboutButton.setOnClickListener(new View.OnClickListener() {
@@ -56,14 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Choisir une difficulté");
                 builder.setItems(difficulties, new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(MainActivity.this, BlindTestActivity.class);
                         Log.e("mainActivity", difficulties[which]);
                         intent.putExtra("difficulty", which);
-                        cloneDifficultySongs(which);
-                        intent.putExtra("songs", (Parcelable) songList);
-                        intent.putExtra("answers", (Parcelable) answerList);
+                        songManager.cloneDifficultySongs(which);
+                        intent.putExtra("songs", (Parcelable) songManager.songList);
+                        intent.putExtra("answers", (Parcelable) songManager.answerList);
                         intent.putExtra("titleNumber", getTitleNumber(which));
                         //intent.putExtra("answerNumber", getAnswerNumber(which));
                         //intent.putExtra("score", 0);
@@ -84,98 +83,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-    private JSONObject readData() {
-        InputStream is;
-        String str_data;
-        try {
-            is = MainActivity.this.getAssets().open("data.json");
-            int size = is.available();
-            byte[] buffer = new byte[size]; //declare the size of the byte array with size of the file
-            is.read(buffer);
-            is.close();
-            str_data = new String(buffer);
-            Log.i("test", new JSONObject(str_data).toString());
-            return new JSONObject(str_data);
-            //Log.w("test", new JSONObject(str_data).getJSONArray("artistes").toString());
-        } catch (IOException | JSONException e) {
-            Log.e("BlindTestActivity", "Read Data Error");
-            e.printStackTrace();
-        }
-        //Log.w("BlindTest onCreate", str_data);
-        return null;
-    }
-
-
-    /**
-     * Clone
-     * @param level
-     * @return
-     */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void cloneDifficultySongs(int level) {
-        String difficultyStr;
-
-        // nbOfQuestions let us set the quantity of questions for each level
-        int nbOfQuestions;
-
-        switch(level) {
-            case 1 :
-                difficultyStr = "medium";
-                nbOfQuestions = 3;
-                break;
-            case 2 :
-                difficultyStr = "hard";
-                nbOfQuestions = 5;
-                break;
-            default:
-                difficultyStr = "easy";
-                nbOfQuestions = 2;
-                break;
-        }
-
-        JSONArray allQuestionsList;
-        try {
-            allQuestionsList = data.getJSONArray("questions");
-            JSONObject difficultyList = allQuestionsList.getJSONObject(level);
-            JSONArray test = difficultyList.getJSONArray(difficultyStr);
-            ArrayList<SongData> tempSongs = new ArrayList<>();
-            for (int i = 0; i < nbOfQuestions; i++) {
-
-                // this random index picks one song and put it in the questions list (songList)
-                int randIndex = getRandomNumber(0, test.length());
-                JSONObject jsonObject = test.getJSONObject(randIndex);
-                // remove the pick to not pick it again
-                test.remove(randIndex);
-                SongData song = new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr);
-                Log.i("" + i, jsonObject.get("artist").toString());
-                tempSongs.add(song);
-            }
-            songList = new SongList(tempSongs);
-            for (SongData aze:songList.songs) {
-                Log.i("lastTest", aze.getArtist()+" / "+ aze.getFileName());
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void cloneAnswers() {
-        try {
-            JSONArray allQuestionsList = data.getJSONArray("artists");
-            ArrayList<String> answers = new ArrayList<>();
-            for (int i = 0; i < allQuestionsList.length(); i++) {
-                answers.add(allQuestionsList.get(i).toString());
-            }
-            answerList = new AnswerList(answers);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private int getTitleNumber(int level) {
         switch(level) {
             default:
@@ -186,10 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 return 4;
         }
     }
-    private int getRandomNumber(int min, int max) {
-        Log.e("range", "" + max);
-        return (int) ((Math.random() * (max - min)) + min);
-    }
+
 
     private int getAnswerNumber(int level) {
         switch(level) {
