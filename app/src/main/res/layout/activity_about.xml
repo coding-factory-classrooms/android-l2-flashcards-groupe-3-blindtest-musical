@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFEAD1A4"
     tools:context=".AboutActivity">
 
     <TextView
@@ -20,6 +21,7 @@
         android:id="@+id/nameTextView"
         android:layout_width="410dp"
         android:layout_height="48dp"
+        android:gravity="center_horizontal"
         android:text="Blindtest"
         android:textAlignment="center"
         android:textScaleX="1"
@@ -27,8 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/groupeTextView"

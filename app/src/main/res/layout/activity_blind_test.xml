@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFEAD1A4"
     tools:context=".BlindTestActivity">
 
     <Button
@@ -21,9 +22,11 @@
         android:layout_width="340dp"
         android:layout_height="103dp"
         android:layout_marginTop="88dp"
+        android:background="#FFEAD1A4"
         android:fontFamily="sans-serif"
         android:text="Quel(le) est cet(te) artiste ?"
-        android:textColor="#F80404"
+        android:textColor="#4169E1
+"
         android:textSize="30sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
