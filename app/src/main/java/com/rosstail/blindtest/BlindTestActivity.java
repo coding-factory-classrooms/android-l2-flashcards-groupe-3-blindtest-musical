@@ -49,36 +49,26 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
             Log.e("lalala", songFromList.getArtist());
             displaySong(songFromList, group);
         }
-
-        difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
-        songList = srcIntent.getParcelableExtra("songs");
-
-        // Set the number of pages
-        if (songFromList == null){
+        else {
+            difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
+            songList = srcIntent.getParcelableExtra("songs");
             songDatas = (ArrayList<SongData>) songList.songs.clone();
+            int index = getRandomNumber(0, songDatas.size());
+            rightAnswer = songDatas.get(index);
+            displaySong(rightAnswer, group);
         }
+        // Set the number of pages
         TextView offPage = findViewById(R.id.offPageTextView);
         offPage.setText("/ " + songDatas.size());
         //numberAnswers = songs.size();
         numberOfQuestions = songDatas.size();
 
-        /*numberTitles = srcIntent.getIntExtra("titleNumber", 0);
-        numberAnswers = srcIntent.getIntExtra("answerNumber", 0);
-        score = srcIntent.getIntExtra("score", 0);*/
 
-        Log.e("BLIND TEST ACTIVITY", difficultyChoice + "");
-
-
-        int index = getRandomNumber(0, songDatas.size());
-        rightAnswer = songDatas.get(index);
-
-        displaySong(rightAnswer, group);
 
     }
 
     private void displaySong(SongData songData, RadioGroup group){
         setNumberOfPage();
-
         String artist = songData.artist;
         String fileName = songData.fileName;
         Log.e("blindactivitytest", artist + "");
@@ -175,6 +165,8 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
     private void addAnswers(RadioGroup group, String artist) {
         ArrayList<String> answers = (ArrayList<String>) answerList.answers.clone();
         ArrayList<String> list = new ArrayList<>();
+
+        Log.i("repetitionreponse", difficultyChoice +"");
 
         int nbAnswer;
 
