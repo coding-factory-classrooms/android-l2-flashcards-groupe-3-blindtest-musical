@@ -15,9 +15,9 @@ import java.util.List;
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> implements View.OnClickListener {
 
     private final SongList songList;
-    SongList allSongs;
+    AnswerList allSongs;
     SongManager songManager;
-    public SoundAdapter(SongList songList, SongList allSongs) {
+    public SoundAdapter(SongList songList, AnswerList allSongs) {
         this.songList = songList;
         this.allSongs = allSongs;
     }

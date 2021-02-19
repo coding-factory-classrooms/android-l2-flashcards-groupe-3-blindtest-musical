@@ -31,7 +31,7 @@ public class SoundsListActivity extends AppCompatActivity {
 
         songManager.createQuestionsList();
 
-        adapter = new SoundAdapter(songManager.allSongs, songManager.allSongs);
+        adapter = new SoundAdapter(songManager.allSongs, songManager.answerList);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(adapter);
