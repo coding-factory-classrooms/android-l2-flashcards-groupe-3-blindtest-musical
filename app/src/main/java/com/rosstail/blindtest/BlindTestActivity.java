@@ -26,6 +26,7 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
     int numberOfQuestions;
     int score;
     int indexPage = 1;
+    SongData songFromList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +39,29 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         RadioGroup group = findViewById(R.id.radioGroup);
 
         Intent srcIntent = getIntent();
+        answerList = (AnswerList) srcIntent.getParcelableExtra("answers");
 
-        SongData test = srcIntent.getParcelableExtra("question");
-        if (test != null){
-            Log.e("lalala", test.getArtist());
+        songFromList = srcIntent.getParcelableExtra("question");
+        if (songFromList != null){
+            difficultyChoice = getIndexOfDifficulty(songFromList.difficulty);
+            songDatas = new ArrayList<>();
+            songDatas.add(songFromList);
+            Log.e("lalala", songFromList.getArtist());
+            displaySong(songFromList, group);
         }
-
 
         difficultyChoice = srcIntent.getIntExtra("difficulty", 1);
         songList = srcIntent.getParcelableExtra("songs");
 
         // Set the number of pages
-        songDatas = (ArrayList<SongData>) songList.songs.clone();
+        if (songFromList == null){
+            songDatas = (ArrayList<SongData>) songList.songs.clone();
+        }
         TextView offPage = findViewById(R.id.offPageTextView);
         offPage.setText("/ " + songDatas.size());
         //numberAnswers = songs.size();
         numberOfQuestions = songDatas.size();
-        answerList = srcIntent.getParcelableExtra("answers");
+
         /*numberTitles = srcIntent.getIntExtra("titleNumber", 0);
         numberAnswers = srcIntent.getIntExtra("answerNumber", 0);
         score = srcIntent.getIntExtra("score", 0);*/
@@ -120,6 +127,14 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
             // No more question, we go to ScoreActivity
             if (songDatas.size() <= 0 || indexPage == numberOfQuestions) {
                 Log.e("Game Over", score + " / " + numberOfQuestions);
+
+                // case we are here from the list
+                if (songFromList != null){
+                    finish();
+                    mp.stop();
+                    return;
+                }
+
                 Intent intent = new Intent(BlindTestActivity.this, ScoreActivity.class);
                 intent.putExtra("score", score);
                 intent.putExtra("numberOfQuestions", numberOfQuestions);
@@ -212,6 +227,21 @@ public class BlindTestActivity extends AppCompatActivity implements View.OnClick
         Log.e("blindactivity", fileId+"");
         mp = MediaPlayer.create(this, fileId);
         //mp.start();
+    }
+
+    public int getIndexOfDifficulty(String levelStr){
+        int returnInt;
+        switch (levelStr){
+            case "medium" :
+                returnInt = 1;
+                break;
+            case "hard" :
+                returnInt = 2;
+                break;
+            default:
+                returnInt = 0;
+        }
+        return returnInt;
     }
 
     @Override

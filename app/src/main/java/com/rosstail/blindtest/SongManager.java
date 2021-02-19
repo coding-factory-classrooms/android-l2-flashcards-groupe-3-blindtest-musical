@@ -110,6 +110,8 @@ public class SongManager {
     }
 
     public void createQuestionsList() {
+        ArrayList<SongData> tempSongs = new ArrayList<>();
+
         try {
             JSONArray allQuestionsList = data.getJSONArray("questions");
 
@@ -131,7 +133,7 @@ public class SongManager {
                 //String key = test.getString("key");
 
                 JSONArray jsonArrayByLevel = test.getJSONArray(keyStr);
-                Log.d("allquestions", jsonArrayByLevel+"");
+                Log.d("allquestionstest", jsonArrayByLevel+"");
 
                 // Loop on
                 for (int j = 0; j < jsonArrayByLevel.length(); j++){
@@ -140,10 +142,13 @@ public class SongManager {
                     String mp3 = item.getString("mp3");
                     String artist = item.getString("artist");
 
-                    allSongs.songs.add(new SongData(mp3, artist, keyStr));
-
+                    SongData newSong = new SongData(mp3, artist, keyStr);
+                    Log.i("allquestionsInLoop", newSong+"");
+                    //Log.i("allSongs", allSongs.songs+"");
+                    tempSongs.add(newSong);
                 }
             }
+            allSongs = new SongList(tempSongs);
             Log.d("allquestions", songList + "");
         } catch (JSONException e) {
             e.printStackTrace();
