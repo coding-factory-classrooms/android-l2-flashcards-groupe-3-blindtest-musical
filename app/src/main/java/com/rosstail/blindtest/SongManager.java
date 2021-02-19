@@ -1,9 +1,6 @@
 package com.rosstail.blindtest;
 
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +21,6 @@ public class SongManager {
        cloneAnswers();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void cloneDifficultySongs(int level) {
         String difficultyStr;
 
@@ -52,15 +48,21 @@ public class SongManager {
             JSONObject difficultyList = allQuestionsList.getJSONObject(level);
             JSONArray test = difficultyList.getJSONArray(difficultyStr);
             ArrayList<SongData> tempSongs = new ArrayList<>();
+            ArrayList<SongData> difficultySongs = new ArrayList<>();
+            for (int i = 0; i < test.length(); i++) {
+                JSONObject jsonObject = test.getJSONObject(i);
+                difficultySongs.add(new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr));
+            }
+
             for (int i = 0; i < nbOfQuestions; i++) {
 
                 // this random index picks one song and put it in the questions list (songList)
-                int randIndex = getRandomNumber(0, test.length());
-                JSONObject jsonObject = test.getJSONObject(i);
+                int randIndex = getRandomNumber(0, difficultySongs.size());
+
+                SongData song = difficultySongs.get(randIndex);
+                difficultySongs.remove(randIndex);
                 // remove the pick to not pick it again
-                test.remove(randIndex);
-                SongData song = new SongData(jsonObject.get("mp3").toString(), jsonObject.get("artist").toString(), difficultyStr);
-                Log.i("" + i, jsonObject.get("artist").toString());
+                Log.i("" + i, song.artist);
                 tempSongs.add(song);
             }
             songList = new SongList(tempSongs);
@@ -107,12 +109,12 @@ public class SongManager {
         }
     }
 
-    public void createQuestionsList (){
+    public void createQuestionsList() {
         try {
             JSONArray allQuestionsList = data.getJSONArray("questions");
 
             // Loop on different levels
-            for (int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 String keyStr = null;
                 switch (i){
                     case 0 :
@@ -149,7 +151,6 @@ public class SongManager {
     }
 
     private int getRandomNumber(int min, int max) {
-        Log.e("range", "" + max);
         return (int) ((Math.random() * (max - min)) + min);
     }
 

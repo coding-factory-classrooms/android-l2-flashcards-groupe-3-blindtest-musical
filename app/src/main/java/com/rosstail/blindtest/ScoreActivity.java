@@ -19,7 +19,7 @@ public class ScoreActivity extends AppCompatActivity {
         String level = srcIntent.getStringExtra("level");
 
         TextView scoreTextView = findViewById(R.id.scoreTextView);
-        scoreTextView.setText(score + " / " + nbOfQuestions);
+        scoreTextView.setText(score + " / " + nbOfQuestions + " -> " + ((int) ((float) score / (float) nbOfQuestions * 100)) + "%");
 
         TextView levelTextView = findViewById(R.id.levelTextView);
         levelTextView.setText("Niveau " + level);

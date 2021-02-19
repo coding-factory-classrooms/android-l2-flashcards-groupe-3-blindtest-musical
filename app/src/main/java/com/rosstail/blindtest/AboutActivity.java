@@ -30,7 +30,6 @@ public class AboutActivity extends AppCompatActivity {
         PackageInfo info = manager.getPackageInfo(
                 getApplicationContext().getPackageName(),
                 0);
-
         return info.versionName;
     }
 }

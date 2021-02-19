@@ -16,7 +16,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.ViewHolder> 
 
     private final SongList songList;
     SongList allSongs;
-    SongManager songManager;
+
     public SoundAdapter(SongList songList, SongList allSongs) {
         this.songList = songList;
         this.allSongs = allSongs;

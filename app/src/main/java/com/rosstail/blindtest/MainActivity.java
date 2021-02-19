@@ -54,18 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Choisir une difficulté");
                 builder.setItems(difficulties, new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Log.e("Difficultytion", which + "");
                         Intent intent = new Intent(MainActivity.this, BlindTestActivity.class);
                         Log.e("mainActivity", difficulties[which]);
                         intent.putExtra("difficulty", which);
                         songManager.cloneDifficultySongs(which);
                         intent.putExtra("songs", (Parcelable) songManager.songList);
                         intent.putExtra("answers", (Parcelable) songManager.answerList);
-                        intent.putExtra("titleNumber", getTitleNumber(which));
-                        //intent.putExtra("answerNumber", getAnswerNumber(which));
-                        //intent.putExtra("score", 0);
                         startActivity(intent);
                     }
                 });
@@ -81,28 +78,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private int getTitleNumber(int level) {
-        switch(level) {
-            default:
-                return 2;
-            case 1 :
-                return 3;
-            case 2 :
-                return 4;
-        }
-    }
-
-
-    private int getAnswerNumber(int level) {
-        switch(level) {
-            default:
-                return 4;
-            case 1 :
-                return 6;
-            case 2 :
-                return 8;
-        }
     }
 }
